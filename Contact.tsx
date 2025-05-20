@@ -2,8 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { MapPin, Mail, Phone, Calendar, User, MessageSquare } from 'lucide-react';
-import SectionTitle from './components/SectionTitle'; // Chemin corrigé ici
-import Button from './components/Button'; // Chemin corrigé ici
+import SectionTitle from './SectionTitle'; // Chemin corrigé ici
+import Button from './Button'; // Chemin corrigé ici
 
 const Contact: React.FC = () => {
   const { t } = useTranslation();
