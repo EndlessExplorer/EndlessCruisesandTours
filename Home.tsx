@@ -1,23 +1,23 @@
-mport React from 'react';
+import React from 'react'; // <--- Assurez-vous que cette ligne commence ABSOLUMENT par "import"
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Compass, Users, Award } from 'lucide-react';
-import Button from './Button'; // Chemin corrigé
-import SectionTitle from './SectionTitle'; // Chemin corrigé
+import Button from './Button';
+import SectionTitle from './SectionTitle';
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
 
   // Animation variants
   const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.6 }
-    }
-  };
+      hidden: { opacity: 0, y: 20 },
+visible: {
+opacity: 1,
+y: 0,
+transition: { duration: 0.6 }
+}
+};
 
   const staggerContainer = {
     hidden: { opacity: 0 },
@@ -32,8 +32,8 @@ const Home: React.FC = () => {
   // Feature card animation
   const featureCardVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.5 }
     }
@@ -69,14 +69,14 @@ const Home: React.FC = () => {
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.pexels.com/photos/631317/pexels-photo-631317.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-            alt="Madagascar landscape" 
+          <img
+            src="https://images.pexels.com/photos/631317/pexels-photo-631317.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            alt="Madagascar landscape"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black opacity-50"></div>
         </div>
-        
+
         <div className="container mx-auto px-4 z-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -96,8 +96,8 @@ const Home: React.FC = () => {
             </Link>
           </motion.div>
           </div>
-        
-        <motion.div 
+
+        <motion.div
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -115,23 +115,23 @@ const Home: React.FC = () => {
       <section id="about" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center">
-            <motion.div 
+            <motion.div
               className="md:w-1/2 mb-10 md:mb-0 md:pr-12"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
               variants={fadeIn}
             >
-              <img 
-                src="https://images.pexels.com/photos/12918666/pexels-photo-12918666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-                alt="Madagascar wildlife" 
+              <img
+                src="https://images.pexels.com/photos/12918666/pexels-photo-12918666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                alt="Madagascar wildlife"
                 className="rounded-lg shadow-xl"
               />
             </motion.div>
-            
+
             <div className="md:w-1/2">
               <SectionTitle title={t('home.about.title')} />
-              <motion.p 
+              <motion.p
                 className="text-gray-700 mb-6 text-lg"
                 initial="hidden"
                 whileInView="visible"
@@ -158,12 +158,12 @@ const Home: React.FC = () => {
       {/* Features Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <SectionTitle 
-            title={t('home.features.title')} 
-            centered={true} 
+          <SectionTitle
+            title={t('home.features.title')}
+            centered={true}
           />
-          
-          <motion.div 
+
+          <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
             initial="hidden"
             whileInView="visible"
@@ -171,7 +171,7 @@ const Home: React.FC = () => {
             variants={staggerContainer}
           >
             {/* Feature 1 */}
-            <motion.div 
+            <motion.div
               className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition-shadow"
               variants={featureCardVariants}
             >
@@ -185,9 +185,9 @@ const Home: React.FC = () => {
                 {t('home.features.expertise.description')}
               </p>
             </motion.div>
-            
+
             {/* Feature 2 */}
-            <motion.div 
+            <motion.div
               className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition-shadow"
               variants={featureCardVariants}
             >
@@ -201,9 +201,9 @@ const Home: React.FC = () => {
                 {t('home.features.sustainable.description')}
               </p>
             </motion.div>
-            
+
             {/* Feature 3 */}
-            <motion.div 
+            <motion.div
               className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition-shadow"
               variants={featureCardVariants}
             >
@@ -224,29 +224,29 @@ const Home: React.FC = () => {
       {/* Popular Destinations */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <SectionTitle 
-            title={t('home.destinations.title')} 
-            centered={true} 
+          <SectionTitle
+            title={t('home.destinations.title')}
+            centered={true}
           />
-          
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12"
+
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
           >
             {popularDestinations.map((destination) => (
-              <motion.div 
+              <motion.div
                 key={destination.id}
                 className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
                 variants={featureCardVariants}
               >
                 <div className="relative h-64">
-                  <img 
-                    src={destination.image} 
-                    alt={destination.name} 
-                    className="w-full h-full object-cover"
+                  <img
+                    src={destination.image}
+                    alt={destination.name}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   />
                   <div className="absolute top-4 right-4 bg-emerald-600 text-white text-sm font-semibold py-1 px-3 rounded-full">
                     {destination.region}
@@ -254,7 +254,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold mb-2 text-gray-800">{destination.name}</h3>
-                  <div className="flex items-center mb-4">
+                  <div className="flex items-center text-gray-600 mb-3">
                     <span className="text-gray-600">{t('circuits.duration')}: </span>
                     <span className="ml-2 font-semibold text-gray-800">{destination.days} {t('circuits.days')}</span>
                   </div>
@@ -267,7 +267,7 @@ const Home: React.FC = () => {
               </motion.div>
             ))}
           </motion.div>
-          
+
           <div className="text-center">
             <Link to="/circuits">
               <Button variant="primary">
@@ -299,8 +299,9 @@ const Home: React.FC = () => {
           </motion.div>
         </div>
       </section>
-    </div> {/* This closing div is crucial */}
+    </div>
   );
 };
 
 export default Home;
+```
