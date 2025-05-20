@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
-import i18n from './i18n'; // MODIFIÉ ICI
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import Circuits from './pages/Circuits';
-import Contact from './pages/Contact';
+import i18n from './i18n'; // Corrigé précédemment
+import Header from './Header'; // MODIFIÉ ICI (suppression de ./components/)
+import Footer from './Footer'; // MODIFIÉ ICI (suppression de ./components/)
+import Home from './Home';     // MODIFIÉ ICI (suppression de ./pages/)
+import Circuits from './Circuits'; // MODIFIÉ ICI (suppression de ./pages/)
+import Contact from './Contact';   // MODIFIÉ ICI (suppression de ./pages/)
 
 function App() {
   return (
