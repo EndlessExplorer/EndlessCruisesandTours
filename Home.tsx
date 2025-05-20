@@ -1,4 +1,4 @@
-import React from 'react';
+mport React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -14,7 +14,7 @@ const Home: React.FC = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
-      y: 0, // <--- Assurez-vous que le "0," est bien là
+      y: 0,
       transition: { duration: 0.6 }
     }
   };
@@ -279,3 +279,28 @@ const Home: React.FC = () => {
       </section>
 
       {/* CTA Section */}
+      <section className="py-20 bg-emerald-800 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeIn}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to discover Madagascar?</h2>
+            <p className="text-xl text-emerald-100 mb-8 max-w-2xl mx-auto">
+              Contact us today to plan your dream vacation to this incredible island paradise.
+            </p>
+            <Link to="/contact">
+              <Button variant="secondary" size="lg">
+                Contact Us Now
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+    </div> {/* This closing div is crucial */}
+  );
+};
+
+export default Home;
