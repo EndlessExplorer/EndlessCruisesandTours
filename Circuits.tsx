@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, UserCheck } from 'lucide-react';
-import SectionTitle from '../components/SectionTitle';
-import Button from '../components/Button';
+import SectionTitle from './SectionTitle'; // MODIFIÉ ICI (suppression de ../components/)
+import Button from './Button';         // MODIFIÉ ICI (suppression de ../components/)
 
 const Circuits: React.FC = () => {
   const { t } = useTranslation();
@@ -106,7 +106,7 @@ const Circuits: React.FC = () => {
       opacity: 1, 
       y: 0,
       transition: { duration:
-       0.4 }
+        0.4 }
     }
   };
 
@@ -144,125 +144,3 @@ const Circuits: React.FC = () => {
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              {t('circuits.filters.all')}
-            </button>
-            <button
-              onClick={() => setActiveFilter('north')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                activeFilter === 'north'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {t('circuits.filters.north')}
-            </button>
-            <button
-              onClick={() => setActiveFilter('south')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                activeFilter === 'south'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {t('circuits.filters.south')}
-            </button>
-            <button
-              onClick={() => setActiveFilter('east')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                activeFilter === 'east'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {t('circuits.filters.east')}
-            </button>
-            <button
-              onClick={() => setActiveFilter('west')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                activeFilter === 'west'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {t('circuits.filters.west')}
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Tour Listings */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={animationContainer}
-            initial="hidden"
-            animate="visible"
-          >
-            {filteredTours.map((tour) => (
-              <motion.div
-                key={tour.id}
-                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all"
-                variants={fadeIn}
-              >
-                <div className="relative h-60">
-                  <img 
-                    src={tour.image} 
-                    alt={tour.name} 
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-4 right-4 bg-emerald-600 text-white text-sm font-semibold py-1 px-3 rounded-full capitalize">
-                    {tour.region}
-                  </div>
-                </div>
-                
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-3 text-gray-800">{tour.name}</h3>
-                  <p className="text-gray-600 mb-4">{tour.description}</p>
-                  
-                  <div className="flex flex-wrap gap-4 mb-6">
-                    <div className="flex items-center text-sm">
-                      <Calendar className="w-4 h-4 mr-1 text-emerald-600" />
-                      <span className="font-medium">{t('circuits.duration')}: </span>
-                      <span className="ml-1">{tour.duration} {t('circuits.days')}</span>
-                    </div>
-                    
-                    <div className="flex items-center text-sm">
-                      <MapPin className="w-4 h-4 mr-1 text-emerald-600" />
-                      <span className="capitalize">{tour.region}</span>
-                    </div>
-                    
-                    <div className={`${getDifficultyColor(tour.difficulty)} text-sm px-2 py-1 rounded-full flex items-center`}>
-                      <UserCheck className="w-3 h-3 mr-1" />
-                      <span className="capitalize">{tour.difficulty}</span>
-                    </div>
-                  </div>
-                  
-                  <Button variant="outline" fullWidth>
-                    {t('circuits.viewDetails')}
-                  </Button>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-      
-      {/* Call to Action */}
-      <section className="py-16 bg-emerald-700 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Can't find what you're looking for?</h2>
-          <p className="text-lg text-emerald-100 mb-8 max-w-2xl mx-auto">
-            We specialize in custom tours tailored to your preferences and schedule.
-            Contact us to create your perfect Madagascar adventure.
-          </p>
-          <Button variant="secondary" size="lg">
-            Request Custom Tour
-          </Button>
-        </div>
-      </section>
-    </div>
-  );
-};
-
-export default Circuits;
