@@ -1,96 +1,130 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, UserCheck } from 'lucide-react';
-import SectionTitle from './SectionTitle';
 import Button from './Button';
+import SectionTitle from './SectionTitle';
+import { Search, MapPin, CalendarDays } from 'lucide-react';
+
+interface Circuit {
+  id: number;
+  name: string;
+  image: string;
+  durationDays: number;
+  price: number;
+  description: string;
+  region: string;
+  themes: string[];
+}
+
+const allCircuits: Circuit[] = [
+  {
+    id: 1,
+    name: 'Northern Discovery: Nosy Be & Diego Suarez',
+    image: 'https://images.pexels.com/photos/1078983/pexels-photo-1078983.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    durationDays: 7,
+    price: 1200,
+    description: 'Explore the pristine beaches, lush forests, and vibrant culture of Northern Madagascar. Discover Nosy Be, the island of perfumes, and the stunning bays of Diego Suarez.',
+    region: 'North',
+    themes: ['Beach', 'Nature', 'Culture'],
+  },
+  {
+    id: 2,
+    name: 'Southern Odyssey: Isalo & Ifaty',
+    image: 'https://images.pexels.com/photos/13389990/pexels-photo-13389990.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    durationDays: 10,
+    price: 1500,
+    description: 'Journey through the dramatic landscapes of Isalo National Park, with its unique rock formations and natural pools, and relax on the beautiful beaches of Ifaty.',
+    region: 'South',
+    themes: ['Hiking', 'Nature', 'Beach'],
+  },
+  {
+    id: 3,
+    name: 'Eastern Rainforest Adventure: Andasibe & Sainte Marie',
+    image: 'https://images.pexels.com/photos/1682701/pexels-photo-1682701.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    durationDays: 8,
+    price: 1350,
+    description: 'Immerse yourself in the biodiversity of the Eastern rainforests, home to indri lemurs in Andasibe, and then unwind on the idyllic island of Sainte Marie.',
+    region: 'East',
+    themes: ['Wildlife', 'Nature', 'Beach'],
+  },
+  {
+    id: 4,
+    name: 'Western Baobab Trails: Morondava & Tsingy',
+    image: 'https://images.pexels.com/photos/13382751/pexels-photo-13382751.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    durationDays: 9,
+    price: 1450,
+    description: 'Witness the iconic Avenue of the Baobabs and explore the unique limestone karsts of Tsingy de Bemaraha National Park, a UNESCO World Heritage site.',
+    region: 'West',
+    themes: ['Nature', 'Adventure', 'Photography'],
+  },
+  {
+    id: 5,
+    name: 'Highlands & Lemur Trek: Antananarivo & Ranomafana',
+    image: 'https://images.pexels.com/photos/13936655/pexels-photo-13936655.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    durationDays: 6,
+    price: 1100,
+    description: 'Discover the historical capital Antananarivo before heading south to Ranomafana National Park, a biodiversity hotspot for lemurs and chameleons.',
+    region: 'Central',
+    themes: ['Culture', 'Wildlife', 'Nature'],
+  },
+];
 
 const Circuits: React.FC = () => {
   const { t } = useTranslation();
-  const [activeFilter, setActiveFilter] = useState('all');
-  const [filteredTours, setFilteredTours] = useState<any[]>([]);
+  const [filteredCircuits, setFilteredCircuits] = useState<Circuit[]>(allCircuits);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRegion, setSelectedRegion] = useState('');
+  const [selectedDuration, setSelectedDuration] = useState('');
 
-  // Define tours data
-  const tours = [
-    {
-      id: 1,
-      name: 'Avenue of the Baobabs',
-      region: 'west',
-      duration: 3,
-      difficulty: 'easy',
-      description: 'Explore the famous avenue with ancient baobab trees.',
-      image: 'https://images.pexels.com/photos/13382751/pexels-photo-13382751.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    },
-    {
-      id: 2,
-      name: 'Andasibe-Mantadia National Park',
-      region: 'east',
-      duration: 4,
-      difficulty: 'moderate',
-      description: 'Discover the home of the Indri lemurs in this lush rainforest.',
-      image: 'https://images.pexels.com/photos/46107/indri-lemur-indri-indri-madagascar-46107.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    },
-    {
-      id: 3,
-      name: 'Isalo National Park',
-      region: 'south',
-      duration: 5,
-      difficulty: 'moderate',
-      description: 'Trek through canyons and natural pools in this scenic park.',
-      image: 'https://images.pexels.com/photos/13389990/pexels-photo-13389990.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    },
-    {
-      id: 4,
-      name: 'Nosy Be Island',
-      region: 'north',
-      duration: 7,
-      difficulty: 'easy',
-      description: 'Relax on pristine beaches and enjoy water activities.',
-      image: 'https://images.pexels.com/photos/1078983/pexels-photo-1078983.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    },
-    {
-      id: 5,
-      name: 'Tsingy de Bemaraha',
-      region: 'west',
-      duration: 6,
-      difficulty: 'challenging',
-      description: 'Navigate through limestone formations in this UNESCO site.',
-      image: 'https://images.pexels.com/photos/7149165/pexels-photo-7149165.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    },
-    {
-      id: 6,
-      name: 'Ranomafana National Park',
-      region: 'east',
-      duration: 4,
-      difficulty: 'moderate',
-      description: 'Explore this biodiversity hotspot with hot springs and rare species.',
-      image: 'https://images.pexels.com/photos/4577793/pexels-photo-4577793.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    },
+  useEffect(() => {
+    let currentCircuits = allCircuits;
+
+    if (searchTerm) {
+      currentCircuits = currentCircuits.filter(circuit =>
+        circuit.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        circuit.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    if (selectedRegion) {
+      currentCircuits = currentCircuits.filter(circuit =>
+        circuit.region === selectedRegion
+      );
+    }
+
+    if (selectedDuration) {
+      currentCircuits = currentCircuits.filter(circuit => {
+        if (selectedDuration === '1-7') return circuit.durationDays >= 1 && circuit.durationDays <= 7;
+        if (selectedDuration === '8-14') return circuit.durationDays >= 8 && circuit.durationDays <= 14;
+        if (selectedDuration === '15+') return circuit.durationDays >= 15;
+        return true;
+      });
+    }
+
+    setFilteredCircuits(currentCircuits);
+  }, [searchTerm, selectedRegion, selectedDuration]);
+
+  const uniqueRegions = Array.from(new Set(allCircuits.map(circuit => circuit.region)));
+  const uniqueDurations = [
+    { value: '1-7', label: '1-7 ' + t('circuits.days') },
+    { value: '8-14', label: '8-14 ' + t('circuits.days') },
+    { value: '15+', label: '15+ ' + t('circuits.days') },
   ];
 
-  // Filter tours based on active filter
-  useEffect(() => {
-    if (activeFilter === 'all') {
-      setFilteredTours(tours);
-    } else {
-      setFilteredTours(tours.filter(tour => tour.region === activeFilter));
-    }
-  }, [activeFilter]);
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'easy':
-        return 'bg-green-100 text-green-800';
-      case 'moderate':
-        return 'bg-amber-100 text-amber-800';
-      case 'challenging':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
   };
 
-  const animationContainer = {
+  const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedRegion(event.target.value);
+  };
+
+  const handleDurationChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedDuration(event.target.value);
+  };
+
+  const staggerContainerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -100,167 +134,127 @@ const Circuits: React.FC = () => {
     }
   };
 
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration:
-        0.4 }
-    }
+  const circuitCardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
 
   return (
-    <div className="min-h-screen pt-20">
-      {/* Hero Section */}
-      <section className="relative py-24 bg-gray-900 overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-30">
-          <img 
-            src="https://images.pexels.com/photos/7506233/pexels-photo-7506233.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-            alt="Madagascar tours" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <SectionTitle 
-            title={t('circuits.title')}
-            subtitle={t('circuits.subtitle')}
-            centered={true}
-            light={true}
-          />
-        </div>
-      </section>
+    <div className="min-h-screen bg-gray-50 py-16">
+      <div className="container mx-auto px-4">
+        <SectionTitle title={t('circuits.title')} centered={true} />
 
-      {/* Tour Filters */}
-      <section className="py-8 bg-white border-b">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <button
-              onClick={() => setActiveFilter('all')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                activeFilter === 'all'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {t('circuits.filters.all')}
-            </button>
-            <button
-              onClick={() => setActiveFilter('north')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                activeFilter === 'north'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {t('circuits.filters.north')}
-            </button>
-            <button
-              onClick={() => setActiveFilter('south')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                activeFilter === 'south'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {t('circuits.filters.south')}
-            </button>
-            <button
-              onClick={() => setActiveFilter('east')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                activeFilter === 'east'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {t('circuits.filters.east')}
-            </button>
-            <button
-              onClick={() => setActiveFilter('west')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                activeFilter === 'west'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {t('circuits.filters.west')}
-            </button>
+        {/* Search and Filter Section */}
+        <motion.div
+          className="bg-white p-6 rounded-lg shadow-md mb-12 grid grid-cols-1 md:grid-cols-3 gap-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder={t('circuits.searchPlaceholder')}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
           </div>
-        </div>
-      </section>
 
-      {/* Tour Listings */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={animationContainer}
-            initial="hidden"
-            animate="visible"
-          >
-            {filteredTours.map((tour) => (
-              <motion.div
-                key={tour.id}
-                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all"
-                variants={fadeIn}
+          <div>
+            <div className="relative">
+              <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <select
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                value={selectedRegion}
+                onChange={handleRegionChange}
               >
-                <div className="relative h-60">
-                  <img 
-                    src={tour.image} 
-                    alt={tour.name} 
-                    className="w-full h-full object-cover"
+                <option value="">{t('circuits.filterByRegion')}</option>
+                {uniqueRegions.map(region => (
+                  <option key={region} value={region}>{region}</option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 6.757 7.586 5.343 9z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div className="relative">
+              <CalendarDays className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <select
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                value={selectedDuration}
+                onChange={handleDurationChange}
+              >
+                <option value="">{t('circuits.filterByDuration')}</option>
+                {uniqueDurations.map(duration => (
+                  <option key={duration.value} value={duration.value}>{duration.label}</option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 6.757 7.586 5.343 9z"/></svg>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Circuits Grid */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainerVariants}
+        >
+          {filteredCircuits.length > 0 ? (
+            filteredCircuits.map((circuit) => (
+              <motion.div
+                key={circuit.id}
+                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                variants={circuitCardVariants}
+              >
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={circuit.image}
+                    alt={circuit.name}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   />
-                  <div className="absolute top-4 right-4 bg-emerald-600 text-white text-sm font-semibold py-1 px-3 rounded-full capitalize">
-                    {tour.region}
+                  <div className="absolute top-4 right-4 bg-emerald-600 text-white text-sm font-semibold py-1 px-3 rounded-full">
+                    {circuit.region}
                   </div>
                 </div>
-                
                 <div className="p-6">
-                  <h3 className="text-xl font-bold mb-3 text-gray-800">{tour.name}</h3>
-                  <p className="text-gray-600 mb-4">{tour.description}</p>
-                  
-                  <div className="flex flex-wrap gap-4 mb-6">
-                    <div className="flex items-center text-sm">
-                      <Calendar className="w-4 h-4 mr-1 text-emerald-600" />
-                      <span className="font-medium">{t('circuits.duration')}: </span>
-                      <span className="ml-1">{tour.duration} {t('circuits.days')}</span>
-                    </div>
-                    
-                    <div className="flex items-center text-sm">
-                      <MapPin className="w-4 h-4 mr-1 text-emerald-600" />
-                      <span className="capitalize">{tour.region}</span>
-                    </div>
-                    
-                    <div className={`${getDifficultyColor(tour.difficulty)} text-sm px-2 py-1 rounded-full flex items-center`}>
-                      <UserCheck className="w-3 h-3 mr-1" />
-                      <span className="capitalize">{tour.difficulty}</span>
-                    </div>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-3">{circuit.name}</h3>
+                  <p className="text-gray-600 mb-4 line-clamp-3">{circuit.description}</p>
+                  <div className="flex items-center text-gray-700 mb-3">
+                    <CalendarDays className="w-5 h-5 text-emerald-500 mr-2" />
+                    <span>{circuit.durationDays} {t('circuits.days')}</span>
                   </div>
-                  
-                  <Button variant="outline" fullWidth>
-                    {t('circuits.viewDetails')}
-                  </Button>
+                  <div className="flex items-center text-gray-900 font-bold text-xl mb-4">
+                    <span>{t('circuits.priceFrom')} ${circuit.price}</span>
+                  </div>
+                  <Link to={`/circuits/${circuit.id}`}>
+                    <Button variant="primary" fullWidth={true}>
+                      {t('circuits.viewDetails')}
+                    </Button>
+                  </Link>
                 </div>
               </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-      
-      {/* Call to Action */}
-      <section className="py-16 bg-emerald-700 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Can't find what you're looking for?</h2>
-          <p className="text-lg text-emerald-100 mb-8 max-w-2xl mx-auto">
-            We specialize in custom tours tailored to your preferences and schedule.
-            Contact us to create your perfect Madagascar adventure.
-          </p>
-          <Button variant="secondary" size="lg">
-            Request Custom Tour
-          </Button>
-        </div>
-      </section>
+            ))
+          ) : (
+            <motion.div
+              className="md:col-span-3 text-center py-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <p className="text-gray-700 text-lg">{t('circuits.noResults')}</p>
+            </motion.div>
+          )}
+        </motion.div>
+      </div>
     </div>
   );
 };
