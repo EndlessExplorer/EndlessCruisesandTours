@@ -1,4 +1,14 @@
-import React from 'react'; // <--- Assurez-vous que cette ligne commence ABSOLUMENT par "import"
+Pardonnez ma longueur, vous avez raison, cela fait longtemps. Allons droit au but.
+
+Problème : Home.tsx contient des ```` (backticks) en trop à la fin.
+Votre fichier Home.tsx est presque bon, mais il y a des caractères de formatage (````) à la fin qui ne devraient pas être là.
+
+Solution : Supprimer les ```` en trop.
+Copiez TOUT ce code (sans les backticks autour) :
+
+Extrait de code
+
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -11,13 +21,13 @@ const Home: React.FC = () => {
 
   // Animation variants
   const fadeIn = {
-      hidden: { opacity: 0, y: 20 },
-visible: {
-opacity: 1,
-y: 0,
-transition: { duration: 0.6 }
-}
-};
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 }
+    }
+  };
 
   const staggerContainer = {
     hidden: { opacity: 0 },
@@ -45,37 +55,37 @@ transition: { duration: 0.6 }
       id: 1,
       name: 'Avenue of the Baobabs',
       region: 'West',
-      image: 'https://images.pexels.com/photos/13382751/pexels-photo-13382751.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      image: '[https://images.pexels.com/photos/13382751/pexels-photo-13382751.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2](https://images.pexels.com/photos/13382751/pexels-photo-13382751.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)',
       days: 3,
     },
     {
       id: 2,
       name: 'Isalo National Park',
       region: 'South',
-      image: 'https://images.pexels.com/photos/13389990/pexels-photo-13389990.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      image: '[https://images.pexels.com/photos/13389990/pexels-photo-13389990.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2](https://images.pexels.com/photos/13389990/pexels-photo-13389990.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)',
       days: 5,
     },
     {
       id: 3,
       name: 'Nosy Be Island',
       region: 'North',
-      image: 'https://images.pexels.com/photos/1078983/pexels-photo-1078983.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      image: '[https://images.pexels.com/photos/1078983/pexels-photo-1078983.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2](https://images.pexels.com/photos/1078983/pexels-photo-1078983.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)',
       days: 7,
     },
   ];
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.pexels.com/photos/631317/pexels-photo-631317.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-            alt="Madagascar landscape"
+        {/* Hero Section */}
+<section className="relative h-screen flex items-center justify-center overflow-hidden">
+<div className="absolute inset-0 z-0">
+<img
+src="https://images.pexels.com/photos/631317/pexels-photo-631317.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+alt="Madagascar landscape"
             className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black opacity-50"></div>
-        </div>
+/>
+<div className="absolute inset-0 bg-black opacity-50"></div>
+</div>
 
         <div className="container mx-auto px-4 z-10 text-center">
           <motion.div
@@ -104,7 +114,7 @@ transition: { duration: 0.6 }
           transition={{ duration: 0.5, delay: 1, repeat: Infinity, repeatType: "reverse" }}
         >
           <a href="#about" className="text-white">
-            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
             </svg>
           </a>
@@ -123,7 +133,7 @@ transition: { duration: 0.6 }
               variants={fadeIn}
             >
               <img
-                src="https://images.pexels.com/photos/12918666/pexels-photo-12918666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                src="[https://images.pexels.com/photos/12918666/pexels-photo-12918666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2](https://images.pexels.com/photos/12918666/pexels-photo-12918666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)"
                 alt="Madagascar wildlife"
                 className="rounded-lg shadow-xl"
               />
@@ -304,4 +314,3 @@ transition: { duration: 0.6 }
 };
 
 export default Home;
-```
