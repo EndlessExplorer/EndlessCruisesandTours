@@ -4,15 +4,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   css: {
-    postcss: {
-      plugins: [
-        require('tailwindcss')(),
-        require('autoprefixer')(),
-      ],
-    },
-    devSourcemap: true, // Active les sourcemaps pour voir le fichier traité
+    postcss: './postcss.config.js', // Utilise le fichier postcss.config.js
+    devSourcemap: true, // Active les sourcemaps pour le développement
   },
   build: {
-    sourcemap: true, // Génère des sourcemaps pour le build
+    sourcemap: true, // Active les sourcemaps pour le build
   },
 });
